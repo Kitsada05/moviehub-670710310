@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getMovies, CACHE_KEY } from '../api/tmdb';
+import { getMovies } from '../api/backend';
 import MovieGrid from '../components/MovieGrid';
-import { forget } from '../api/cache';
+//import { forget } from '../api/cache';
 //import { movies as localMovies } from '../data/data';
 // TODO ขั้นที่ 3: import { useEffect } from 'react' และ import { getMovies, CACHE_KEY } from '../api/tmdb' กับ { forget } from '../api/cache'
 
@@ -14,13 +14,13 @@ function Movies() {
   //   movies   เริ่มจาก []  (รายการที่ได้จาก getMovies() ซึ่งโหลดจริงวันละครั้ง)
   //   status   'loading' | 'success' | 'error'
   //   error    Error หรือ null
-  
+
   //   และ reloadKey (ตัวนับ) สำหรับปุ่ม "ลองใหม่" ที่ต้อง forget(CACHE_KEY) ก่อนโหลดซ้ำ
   const [movies, setMovies] = useState([]);        // รายการจาก getMovies() (โหลดจริงวันละครั้ง)
   const [status, setStatus] = useState('loading'); // 'loading' | 'success' | 'error'
   const [error, setError] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);   // ตัวนับสำหรับปุ่ม "ลองใหม่"
-useEffect(() => {
+  useEffect(() => {
     let ignore = false;                            // ธงกันคำตอบเก่ามาทับคำตอบใหม่
 
     async function load() {
@@ -79,7 +79,7 @@ useEffect(() => {
       </div>
 
       <MovieGrid movies={shown} status={status} error={error}
-                 onRetry={() => { forget(CACHE_KEY); setReloadKey(k => k + 1); }} />
+        onRetry={() => setReloadKey(k => k + 1)} />
     </div>
   );
 }
